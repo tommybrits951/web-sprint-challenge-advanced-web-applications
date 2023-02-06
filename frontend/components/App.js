@@ -54,7 +54,7 @@ export default function App() {
     })
     .catch(err => {
       console.log(err)
-      redirectToLogin()
+      
     })
   }
   const gitArticles = () => {
@@ -105,7 +105,7 @@ export default function App() {
         <h1>Advanced Web Applications</h1>
         <nav>
           <NavLink id="loginScreen" to="/">Login</NavLink>
-          <NavLink id="articlesScreen" to="/articles">Articles</NavLink>
+          <NavLink id="articlesScreen" to={`${!localStorage.getItem('token') ? "/" : "/articles"}`}>Articles</NavLink>
         </nav>
         <Routes>
           <Route path="/" element={<LoginForm login={login} />} />
