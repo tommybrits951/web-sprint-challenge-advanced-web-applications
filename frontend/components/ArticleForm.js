@@ -5,14 +5,12 @@ const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues)
-  const {postArticle, setCurrentArticleId, updateArticle} = props
+  const {postArticle, setCurrentArticleId, updateArticle, currentArticle} = props
 
   useEffect(() => {
     // ✨ implement
-    // Every time the `currentArticle` prop changes, we should check it for truthiness:
-    // if it's truthy, we should set its title, text and topic into the corresponding
-    // values of the form. If it's not, we should reset the form back to initial values.
-  })
+    currentArticle ? setValues(currentArticle) : setValues(initialFormValues)
+  }, [currentArticle])
 
   const onChange = evt => {
     const { id, value } = evt.target
@@ -21,7 +19,8 @@ export default function ArticleForm(props) {
 
   const onSubmit = evt => {
     evt.preventDefault()
-    postArticle(values)
+    !currentArticle ? postArticle(values) : updateArticle(currentArticle.article_id, values)
+    setCurrentArticleId(undefined)
     clearForm()
   }
 

@@ -15,7 +15,16 @@ export default function Articles(props) {
   }
 
 
-
+  const editHandle = (article, article_id) => {
+    const art = {
+      title: article.title,
+      text: article.text,
+      topic: article.topic,
+      article_id: article_id
+    }
+    setCurrentArticleId(art)
+    console.log(art)
+  }
 
   useEffect(() => {
     
@@ -33,7 +42,7 @@ export default function Articles(props) {
       {
         !articles.length
           ? 'No articles yet'
-          : articles.map(art => {
+          : articles.map((art, idx) => {
             return (
               <div className="article" key={art.article_id}>
                 <div>
@@ -42,7 +51,7 @@ export default function Articles(props) {
                   <p>Topic: {art.topic}</p>
                 </div>
                 <div>
-                  <button onClick={Function.prototype}>Edit</button>
+                  <button onClick={() => editHandle(articles[idx], art.article_id)}>Edit</button>
                   <button value={art.article_id} onClick={deleteHandle}>Delete</button>
                 </div>
               </div>

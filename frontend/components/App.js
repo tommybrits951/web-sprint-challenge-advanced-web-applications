@@ -79,9 +79,19 @@ export default function App() {
     .catch(err => console.log(err))
   }
 
-  const updateArticle = ({ article_id, article }) => {
-    // ✨ implement
-    // You got this!
+  const updateArticle = ( article_id, article ) => {
+    const token = localStorage.getItem('token')
+    axios.create({baseURL: 'http://localhost:9000/api', headers: {authorization: token}})
+    .put(`http://localhost:9000/api/articles/${article_id}`, article)
+    .then(res => {
+      console.log(res)
+      setMessage(res.data.message)
+      
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      gitArticles()
+    })
   }
 
   const deleteArticle = article_id => {
@@ -111,7 +121,7 @@ export default function App() {
           <Route path="/" element={<LoginForm login={login} />} />
           <Route path="articles" element={
             <>
-              <ArticleForm postArticle={postArticle} updateArticle={updateArticle} setCurrentArticleId={setCurrentArticleId} />
+              <ArticleForm postArticle={postArticle} updateArticle={updateArticle} currentArticle={currentArticleId} setCurrentArticleId={setCurrentArticleId} />
               <Articles gitArticles={gitArticles} articles={articles} getArticles={getArticles} deleteArticle={deleteArticle} setCurrentArticleId={setCurrentArticleId} />
             </>
           } />
